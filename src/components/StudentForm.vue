@@ -4,23 +4,23 @@
       <div>
         <h1>Add Student Details Form</h1>
         <label for="name">Name:</label>
-        <input type="text" id="name" v-model="form.name" required />
+        <input type="text" id="name" v-model="name" required />
       </div>
       <div>
         <label for="class">Class:</label>
-        <input type="text" id="class" v-model="form.class" required />
+        <input type="text" id="class" v-model="standard" required />
       </div>
       <div>
         <label for="age">Age:</label>
-        <input type="number" id="age" v-model="form.age"  required />
+        <input type="number" id="age" v-model="age"  required />
       </div>
       <div>
         <label for="dob">Date of Birth:</label>
-        <input type="date" id="dob" v-model="form.dob" required />
+        <input type="date" id="dob" v-model="dob" required />
       </div>
       <div>
         <label for="gender">Gender:</label>
-        <select id="gender" v-model="form.gender" required>
+        <select id="gender" v-model="gender" required>
           <option value="" disabled>Select gender</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
@@ -29,52 +29,46 @@
       </div>
       <div>
         <button type="submit">Create New User</button>
-        <!-- <button type="button" @click="backToTable">Back</button> -->
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import { store } from '@/store/store';
+import {ref} from 'vue'
+import { useRouter } from 'vue-router';
+
 export default {
   name: 'StudentForm',
   data() {
-    return {
-      form: {
-        name: '',
-        class: '',
-        age: '',
-        dob: '',
-        gender: ''
+
+    const name = ref('')
+    const standard = ref('')
+    const age = ref('')
+    const dob = ref('')
+    const gender = ref('')
+    const router = useRouter()
+    
+    function submitForm(){
+
+      const student = {
+        studentName : name,
+        class: standard,
+        age: age,
+        dateofbirth: dob,
+        gender: gender
       }
+
+      store.addStudent(student)
+      router.push("/")
+    }
+
+
+    return {
+     name, standard, age, dob, gender, submitForm
     };
   },
-  // methods: {
-  //   submitForm() {
-  //     this.$emit("add:student",this.student)
-  //   },
-  //   // backToTable() {
-  //   //   this.$router.push('/');
-  //   // }
-  // }
-  methods: {
-  submitForm() {
-    // Emit the form data as the student object
-    this.$emit("add:student", {
-      id: Date.now(),  // Generate a unique ID based on the current timestamp
-      ...this.form
-    });
-    
-    this.form = {
-      name: '',
-      class: '',
-      age: '',
-      dob: '',
-      gender: ''
-    };
-  }
-}
-
 };
 </script>
 
@@ -116,3 +110,8 @@ button[type="button"] {
   background-color: #6c757d;
 }
 </style>
+
+
+
+
+

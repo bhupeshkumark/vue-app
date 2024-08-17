@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import StudentDetails from "@/components/StudentDetails.vue"
 import StudentForm from '@/components/StudentForm.vue';
+import UpdateForm from '@/components/UpdateForm.vue';
+import ViewForm from '@/components/ViewForm.vue';
 
 const routes = [
     {
@@ -9,8 +11,16 @@ const routes = [
     },
     {
         path:"/form",
-        component:StudentForm
-     },
+        component:StudentForm,
+    },
+    {
+        path:"/update/:id",
+        component:UpdateForm,
+    },
+    {
+        path:"/view/:id",
+        component:ViewForm,
+    },
 ]
 
 

@@ -1,9 +1,8 @@
 <template>
   <div class="student-details">
     <h1>Students Table</h1>
-    <StudentForm  @submit="addStudent" />
     <div class="table-container">
-      <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover" v-bind:hidden="!isTableEmpty">
         <thead>
           <tr>
             <th>Name</th>
@@ -16,15 +15,15 @@
         </thead>
         <tbody>
           <tr v-for="student in students" :key="student.id">
-            <td>{{ student.name }}</td>
+            <td>{{ student.studentName }}</td>
             <td>{{ student.class }}</td>
             <td>{{ student.age }}</td>
-            <td>{{ student.dob }}</td>
+            <td>{{ student.dateofbirth }}</td>
             <td>{{ student.gender }}</td>
             <td>
-              <button @click="viewStudent(student.id)">View</button>
-              <button @click="updateStudent(student.id)">Update</button>
-              <button @click="deleteStudent(student.id)">Delete</button>
+              <button @click="viewStudent(student)">View</button>
+              <button @click="updateStudent(student)">Update</button>
+              <button @click="deleteStudent(student)">Delete</button>
             </td>
           </tr>
         </tbody>
@@ -35,16 +34,32 @@
 </template>
 
 <script>
+import { store } from '@/store/store';
+import { useRouter } from 'vue-router';
+
 
 export default {
   name: "StudentDetails",
-  props:{
-    students:Array
-  },
-  methods:{
-    deleteStudent(studentId){
-      this.$emit("delete:student",studentId)
+  data(){
+    const students = store.students
+    const isTableEmpty = store.students.length
+    const router = useRouter()
+    function userDetailView(){
+      router.push('/form')
     }
+
+    function deleteStudent(student){
+      store.removeStudent(student)
+    }
+    function updateStudent(student)
+    {
+      router.push('/update/'+student.id)
+    }
+    function viewStudent(student)
+    {
+      router.push('/view/'+student.id)
+    }
+    return {students, userDetailView, deleteStudent, isTableEmpty, updateStudent, viewStudent}
   }
 };
 </script>
