@@ -2,7 +2,8 @@
   <div class="student-details">
     <h1>Students Table</h1>
     <div class="table-container">
-      <table class="table table-striped table-hover" v-bind:hidden="!isTableEmpty">
+      <table class="table table-striped table-hover">
+      <table class="table table-striped table-hover" v-bind:hidden="!isTableEmpty"></table>
         <thead>
           <tr>
             <th>Name</th>
@@ -42,24 +43,27 @@ export default {
   name: "StudentDetails",
   data(){
     const students = store.students
-    const isTableEmpty = store.students.length
+    // const isTableEmpty = store.students.length
     const router = useRouter()
+
     function userDetailView(){
       router.push('/form')
     }
 
     function deleteStudent(student){
+      alert("Do You want to Delete")
       store.removeStudent(student)
     }
     function updateStudent(student)
     {
+      // alert("Do you want to Update")
       router.push('/update/'+student.id)
     }
     function viewStudent(student)
     {
       router.push('/view/'+student.id)
     }
-    return {students, userDetailView, deleteStudent, isTableEmpty, updateStudent, viewStudent}
+    return {students, userDetailView, deleteStudent, /*isTableEmpty,*/ updateStudent, viewStudent}
   }
 };
 </script>
@@ -78,4 +82,6 @@ table {
   display: flex;
   justify-content: center;
 }
+
+
 </style>

@@ -29,6 +29,7 @@
       </div>
       <div>
         <button type="submit">Create New User</button>
+        <button @click="goBack">Back</button>
       </div>
     </form>
   </div>
@@ -63,10 +64,13 @@ export default {
       store.addStudent(student)
       router.push("/")
     }
+    const goBack = () => {
+        router.push('/');
+    };
 
 
     return {
-     name, standard, age, dob, gender, submitForm
+     name, standard, age, dob, gender, submitForm, goBack
     };
   },
 };
